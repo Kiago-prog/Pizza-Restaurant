@@ -34,3 +34,14 @@ def get_restaurant(id):
         } for rp in restaurant.restaurant_pizzas]
     }
     return jsonify(response), 200
+
+# DELETE /restaurants/<int:id> - delete restaurant and its join records
+@restaurant_bp.route('/restaurants/<int:id>', methods=['DELETE'])
+def delete_restaurant(id):
+    restaurant = Restaurant.query.get(id)
+    if not restaurant:
+        return jsonify({"error": "Restaurant not found"}), 404
+
+    db.session.delete(restaurant)
+    db.session.commit()
+    return '', 204
