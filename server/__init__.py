@@ -1,3 +1,3 @@
-from .restaurant import Restaurant
-from .pizza import Pizza
-from .restaurant_pizza import RestaurantPizza
+from server.models.restaurant import Restaurant
+from server.models.pizza import Pizza
+from server.models.restaurant import Restaurant

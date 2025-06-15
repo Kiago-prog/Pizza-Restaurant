@@ -5,9 +5,18 @@ class RestaurantPizza(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     price = db.Column(db.Integer, nullable=False)
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'))
+    pizza_id = db.Column(db.Integer, db.ForeignKey('pizzas.id'))
 
-    pizza_id = db.Column(db.Integer, db.ForeignKey('pizzas.id'), nullable=False)
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)
+    restaurant = db.relationship("Restaurant", back_populates="restaurant_pizzas")
+    pizza = db.relationship("Pizza", back_populates="restaurant_pizzas")
 
-    def validate_price(self):
-      return 1 <= self.price <= 30
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "price": self.price,
+            "pizza_id": self.pizza_id,
+            "restaurant_id": self.restaurant_id,
+            "pizza": self.pizza.to_dict(),
+            "restaurant": self.restaurant.to_dict()
+        }
