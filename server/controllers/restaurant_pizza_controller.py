@@ -33,3 +33,23 @@ def create_restaurant_pizza():
     rp = RestaurantPizza(price=price, pizza_id=pizza_id, restaurant_id=restaurant_id)
     db.session.add(rp)
     db.session.commit()
+    
+     # Build success response
+    response = {
+        "id": rp.id,
+        "price": rp.price,
+        "pizza_id": rp.pizza_id,
+        "restaurant_id": rp.restaurant_id,
+        "pizza": {
+            "id": pizza.id,
+            "name": pizza.name,
+            "ingredients": pizza.ingredients
+        },
+        "restaurant": {
+            "id": restaurant.id,
+            "name": restaurant.name,
+            "address": restaurant.address
+        }
+    }
+    return jsonify(response), 201
+
