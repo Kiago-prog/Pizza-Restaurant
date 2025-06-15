@@ -22,3 +22,14 @@ def create_restaurant_pizza():
     # Validation: price between 1 and 30
     if not (1 <= price <= 30):
         return jsonify({"errors": ["Price must be between 1 and 30"]}), 400
+    
+      # Validation: restaurant and pizza must exist
+    restaurant = Restaurant.query.get(restaurant_id)
+    pizza = Pizza.query.get(pizza_id)
+    if not restaurant or not pizza:
+        return jsonify({"errors": ["Invalid restaurant or pizza ID"]}), 400
+
+    # Create and save the RestaurantPizza
+    rp = RestaurantPizza(price=price, pizza_id=pizza_id, restaurant_id=restaurant_id)
+    db.session.add(rp)
+    db.session.commit()
