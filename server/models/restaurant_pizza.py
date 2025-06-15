@@ -8,3 +8,6 @@ class RestaurantPizza(db.Model):
 
     pizza_id = db.Column(db.Integer, db.ForeignKey('pizzas.id'), nullable=False)
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)
+
+    def validate_price(self):
+      return 1 <= self.price <= 30
