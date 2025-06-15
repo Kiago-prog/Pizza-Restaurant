@@ -15,3 +15,22 @@ def get_restaurants():
         "address": r.address
     } for r in restaurants]
     return jsonify(response), 200
+
+# GET /restaurants/<int:id> - get one restaurant and its pizzas
+@restaurant_bp.route('/restaurants/<int:id>', methods=['GET'])
+def get_restaurant(id):
+    restaurant = Restaurant.query.get(id)
+    if not restaurant:
+        return jsonify({"error": "Restaurant not found"}), 404
+
+    response = {
+        "id": restaurant.id,
+        "name": restaurant.name,
+        "address": restaurant.address,
+        "pizzas": [{
+            "id": rp.pizza.id,
+            "name": rp.pizza.name,
+            "ingredients": rp.pizza.ingredients
+        } for rp in restaurant.restaurant_pizzas]
+    }
+    return jsonify(response), 200
